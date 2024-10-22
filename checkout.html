@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Checkout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <link rel="stylesheet" href="styles/pages/checkout/checkout-header.css">
+    <link rel="stylesheet" href="styles/pages/checkout/checkout.css">
+  </head>
+  <body>
+    <div class="checkout-header">
+      <div class="header-content">
+        <div class="checkout-header-left-section">
+          <a href="amazon.html">
+            <img class="amazon-logo" src="images/amazon-logo.png">
+            <img class="amazon-mobile-logo" src="images/amazon-mobile-logo.png">
+          </a>
+        </div>
+
+        <div class="checkout-header-middle-section">
+          Checkout (<a class="return-to-home-link" href="amazon.html"><span id="item-count"></span> items</a>)
+        </div>
+
+        <div class="checkout-header-right-section">
+          <img src="images/icons/checkout-lock-icon.png">
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="page-title">Review your order</div>
+
+      <div class="checkout-grid">
+        <div id="order-summary" class="order-summary">
+          <!-- Cart items will be inserted here dynamically -->
+        </div>
+
+        <div class="payment-summary">
+          <div class="payment-summary-title">Order Summary</div>
+          <div class="payment-summary-row">
+            <div>Items (<span id="item-total-count"></span>):</div>
+            <div class="payment-summary-money" id="items-total-price">$0.00</div>
+          </div>
+          <div class="payment-summary-row">
+            <div>Shipping &amp; handling:</div>
+            <div class="payment-summary-money">$4.99</div>
+          </div>
+          <div class="payment-summary-row subtotal-row">
+            <div>Total before tax:</div>
+            <div class="payment-summary-money" id="total-before-tax">$0.00</div>
+          </div>
+          <div class="payment-summary-row">
+            <div>Estimated tax (10%):</div>
+            <div class="payment-summary-money" id="estimated-tax">$0.00</div>
+          </div>
+          <div class="payment-summary-row total-row">
+            <div>Order total:</div>
+            <div class="payment-summary-money" id="order-total">$0.00</div>
+          </div>
+
+          <button class="place-order-button button-primary">Place your order</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Load cart data from localStorage
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
+const orderSummaryDiv = document.getElementById('order-summary');
+const itemCountSpan = document.getElementById('item-count');
+const itemTotalCount = document.getElementById('item-total-count');
+const itemsTotalPrice = document.getElementById('items-total-price');
+const totalBeforeTax = document.getElementById('total-before-tax');
+const estimatedTax = document.getElementById('estimated-tax');
+const orderTotal = document.getElementById('order-total');
+
+let totalItems = 0;
+let totalPrice = 0;
+
+// Function to render the cart items and update the summary
+function renderCart() {
+  // Reset the summary and cart details
+  orderSummaryDiv.innerHTML = '';
+  totalItems = 0;
+  totalPrice = 0;
+
+  cart.forEach((item, index) => {
+    totalItems += item.quantity;
+    totalPrice += item.price * item.quantity;
+
+    const cartItemHTML = `
+      <div class="cart-item-container">
+        <div class="cart-item-details-grid">
+          <img class="product-image" src="${item.img}">
+          <div class="cart-item-details">
+            <div class="product-name">${item.name}</div>
+            <div class="product-price">$${item.price.toFixed(2)}</div>
+            <div class="product-quantity">
+              <span>Quantity: <span class="quantity-label">${item.quantity}</span></span>
+              <span class="update-quantity-link link-primary">Update</span>
+              <span class="delete-quantity-link link-primary" data-index="${index}">Delete</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    orderSummaryDiv.insertAdjacentHTML('beforeend', cartItemHTML);
+  });
+
+  // Update the cart summary totals
+  itemCountSpan.textContent = totalItems;
+  itemTotalCount.textContent = totalItems;
+  itemsTotalPrice.textContent = `$${totalPrice.toFixed(2)}`;
+  totalBeforeTax.textContent = `$${totalPrice.toFixed(2)}`;
+  estimatedTax.textContent = `$${(totalPrice * 0.10).toFixed(2)}`;
+  orderTotal.textContent = `$${(totalPrice * 1.10 + 4.99).toFixed(2)}`;
+
+  // Add event listeners for the delete buttons
+  const deleteButtons = document.querySelectorAll('.delete-quantity-link');
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const itemIndex = parseInt(this.getAttribute('data-index'), 10);
+      deleteItem(itemIndex);
+    });
+  });
+}
+
+// Function to delete an item from the cart
+function deleteItem(index) {
+  // Remove the item from the cart array
+  cart.splice(index, 1);
+
+  // Update the cart in localStorage
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  // Re-render the cart after deletion
+  renderCart();
+}
+
+// Initial render when the page loads
+renderCart();
+
+    </script>
+  </body>
+</html>

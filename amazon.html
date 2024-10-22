@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Amazon Project</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <link rel="stylesheet" href="styles/shared/amazon-header.css">
+    <link rel="stylesheet" href="styles/pages/amazon.css">
+  </head>
+  <body>
+    <div class="amazon-header">
+      <div class="amazon-header-left-section">
+        <a href="amazon.html" class="header-link">
+          <img class="amazon-logo" src="images/amazon-logo-white.png">
+          <img class="amazon-mobile-logo" src="images/amazon-mobile-logo-white.png">
+        </a>
+      </div>
+
+      <div class="amazon-header-middle-section">
+        <input class="search-bar" type="text" placeholder="Search">
+        <button class="search-button">
+          <img class="search-icon" src="images/icons/search-icon.png">
+        </button>
+      </div>
+
+      <div class="amazon-header-right-section">
+        <a class="orders-link header-link" href="orders.html">
+          <span class="returns-text">Returns</span>
+          <span class="orders-text">& Orders</span>
+        </a>
+      
+        <a class="cart-link header-link" href="checkout.html">
+          <img class="cart-icon" src="images/icons/cart-icon.png">
+          <div class="cart-quantity" id="cart-quantity">0</div> <!-- Cart quantity starts at 0 -->
+          <div class="cart-text">Cart</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="products-grid">
+        
+        <!-- Product 1: Athletic Shorts -->
+        <div class="product-container" id="product1">
+          <div class="product-image-container">
+            <img class="product-image" src="images/products/athletic_shorts.jpg">
+          </div>
+          <div class="product-name">Athletic Shorts</div>
+          <div class="product-price">$10.90</div>
+          <div class="product-quantity-container">
+            <select class="quantity-selector" id="quantity1">
+              <option selected value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <button class="add-to-cart-button" onclick="addToCart(1)">Add to Cart</button>
+        </div>
+
+        <!-- Product 2: Cotton Towel -->
+        <div class="product-container" id="product2">
+          <div class="product-image-container">
+            <img class="product-image" src="images/products/cotton_towel.jpg">
+          </div>
+          <div class="product-name">Cotton Towel - 2 Pack</div>
+          <div class="product-price">$20.95</div>
+          <div class="product-quantity-container">
+            <select class="quantity-selector" id="quantity2">
+              <option selected value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <button class="add-to-cart-button" onclick="addToCart(2)">Add to Cart</button>
+        </div>
+
+        <!-- Product 3: Cotton Handkerchiefs -->
+        <div class="product-container" id="product3">
+          <div class="product-image-container">
+            <img class="product-image" src="images/products/cotton_hankerchief.jpg">
+          </div>
+          <div class="product-name">Cotton Handkerchiefs - 12 Pack</div>
+          <div class="product-price">$7.99</div>
+          <div class="product-quantity-container">
+            <select class="quantity-selector" id="quantity3">
+              <option selected value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <button class="add-to-cart-button" onclick="addToCart(3)">Add to Cart</button>
+        </div>
+
+        <!-- Product 4: Boxers -->
+        <div class="product-container" id="product4">
+          <div class="product-image-container">
+            <img class="product-image" src="images/products/cotton_boxers.jpg">
+          </div>
+          <div class="product-name">Cotton Boxers - 5 Pack</div>
+          <div class="product-price">$15.50</div>
+          <div class="product-quantity-container">
+            <select class="quantity-selector" id="quantity4">
+              <option selected value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <button class="add-to-cart-button" onclick="addToCart(4)">Add to Cart</button>
+        </div>
+
+        <!-- Product 5: Perfume -->
+        <div class="product-container" id="product5">
+          <div class="product-image-container">
+            <img class="product-image" src="images/products/luxury_perfume.jpg">
+          </div>
+          <div class="product-name">Luxury Perfume</div>
+          <div class="product-price">$35.00</div>
+          <div class="product-quantity-container">
+            <select class="quantity-selector" id="quantity5">
+              <option selected value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <button class="add-to-cart-button" onclick="addToCart(5)">Add to Cart</button>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      // Initialize the cart count at 0
+      let cartCount = 0;
+
+      // Function to update cart count display
+      function updateCartCount() {
+        document.getElementById("cart-quantity").textContent = cartCount;
+      }
+
+      // Function to handle adding items to cart
+      function addToCart(productId) {
+        // Define product details
+        let product;
+        if (productId === 1) {
+            product = { id: 1, name: "Athletic Shorts", price: 10.90, img: "images/products/athletic_shorts.jpg" };
+        } else if (productId === 2) {
+            product = { id: 2, name: "Cotton Towel - 2 Pack", price: 20.95, img: "images/products/cotton_towel.jpg" };
+        } else if (productId === 3) {
+            product = { id: 3, name: "Cotton Handkerchiefs - 12 Pack", price: 7.99, img: "images/products/cotton_hankerchief.jpg" };
+        } else if (productId === 4) {
+            product = { id: 4, name: "Cotton Boxers - 5 Pack", price: 15.50, img: "images/products/cotton_boxers.jpg" };
+        } else if (productId === 5) {
+            product = { id: 5, name: "Luxury Perfume", price: 35.00, img: "images/products/luxury_perfume.jpg" };
+        }
+
+        // Get the selected quantity for the product
+        const quantityElement = document.getElementById(`quantity${productId}`);
+        const selectedQuantity = parseInt(quantityElement.value, 10);
+
+        // Retrieve the cart from localStorage or initialize an empty array
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Check if the item already exists in the cart
+        const existingItemIndex = cart.findIndex(item => item.id === productId);
+        
+        if (existingItemIndex !== -1) {
+            // If the item already exists, update the quantity
+            cart[existingItemIndex].quantity += selectedQuantity;
+        } else {
+            // If the item does not exist, add it to the cart
+            product.quantity = selectedQuantity;
+            cart.push(product);
+        }
+
+        // Save the updated cart to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // Update the cart count and display
+        cartCount += selectedQuantity;
+        updateCartCount();
+      }
+
+      // Load cart count from localStorage on page load
+      window.onload = function() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        updateCartCount();
+      };
+    </script>
+  </body>
+</html>
